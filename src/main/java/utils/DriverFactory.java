@@ -14,7 +14,6 @@ public class DriverFactory {
         if (driver == null) {
             //WebDriverManager.chromedriver().setup();
             driver = new EdgeDriver();
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         }
         return driver;
