@@ -2,6 +2,7 @@ package runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
@@ -16,5 +17,9 @@ import org.junit.runner.RunWith;
         monochrome = true
 )
 public class TestRunner {
-
+        @BeforeClass
+        public static void configurarAllure() {
+                // Garante que os arquivos do Allure sejam salvos em target/allure-results
+                System.setProperty("allure.results.directory", "target/allure-results");
+        }
 }
