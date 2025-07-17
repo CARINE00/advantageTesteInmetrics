@@ -45,7 +45,7 @@ cucumber-reports/
 
 ### Allure ###
 target/allure-results/
-allure-report/
+target/allure-report/
 
 ### Logs ###
 logs/
