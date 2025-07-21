@@ -1,6 +1,7 @@
 package steps;
 
 import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.By;
@@ -9,8 +10,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import pages.LoginPage;
 import utils.ApiHelper;
+import utils.DatabaseHelper;
 import utils.DriverFactory;
 import utils.Usuario;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static utils.DriverFactory.getDriver;
 
@@ -21,6 +26,7 @@ public class Hooks {
 
     @Before
     public void setUp(Scenario scenario) {
+        DatabaseHelper.initializeDatabase();
         driver = DriverFactory.getDriver();
         driver.get("https://advantageonlineshopping.com/#/");
 
@@ -56,8 +62,16 @@ public class Hooks {
 
     @After
     public void tearDown(Scenario scenario) {
+        //Gravar informação no banco de dados
+        String status = scenario.isFailed() ? "FAILED" : "PASSED";
+        DatabaseHelper.insertExecution(scenario.getName(), status);
+
+        // Tirar print
         byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", "evidência");
+
+        //Fechar navegador
         DriverFactory.quitDriver();
     }
+
 }
