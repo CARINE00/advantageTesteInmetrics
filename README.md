@@ -28,53 +28,78 @@ Este projeto foi desenvolvido como parte do **Desafio Automação Web**, com foc
 
 ```
 advantageTesteInmetrics/
+│
 ├── src/
-│   ├── java/
-│   │   ├── pages/             # Page Objects com elementos e ações das telas
-│   │   └── utils/             # DriverFactory, geração de logs, usuários pela API
-│   │ 
+│   ├── main/
+│   │   └── java/
+│   │       ├── pages/           # Page Objects
+│   │       └── utils/           # Helpers, Log, DB, API
 │   └── test/
 │       ├── java/
-│       │   ├── steps/          # Steps do Cucumber com lógica de teste
-│       │   └── runners/        # Runner de testes (JUnit + Cucumber)
-│       └── resourses/          # Arquivos .feature em Gherkin
+│       │   ├── steps/           # Step Definitions
+│       │   └── runners/         # Test Runner (JUnit + Allure)
+│       └── resources/
+│           └── features/        # Cenários em Gherkin
 │
-├── target/
-│   └── allure-results/         # Resultados de execução do Allure
-│
-├── logs/                       # Resultados de logs
-│
-├── pom.xml                     # Gerenciamento de dependências Maven
-├── .gitignore                  # Arquivos ignorados pelo Git
-└── README.md                   # Documentação do projeto
+├── target/                      # Saída dos testes, relatórios, etc.
+├── Jenkinsfile                  # Pipeline Jenkins
+├── azure-pipelines.yml         # Pipeline Azure DevOps
+├── pom.xml                     # Configuração Maven
+├── allure.properties           # Configuração Allure (opcional)
+└── README.md                   # Este arquivo
 ```
 
----
-
-## 🧪 Funcionalidades Testadas
-
-- Criação de usuário via API `/register`
-- Login de usuário no sistema
-- Fluxo de checkout com adição de produtos no carrinho
-- Validação de resumo da compra e finalização
 
 ---
+## 🧪 Como Executar os Testes
 
-## ⚙️ Execução dos Testes
+### 1. Pré-requisitos
 
-### 1. Rodar testes com Maven:
+- Java 21 instalado
+- Maven instalado
+- Navegador Chrome instalado
+- ### 2. Executar via terminal
 
-```bash
+``` bash
   mvn clean test
 ```
 
-### 2. Gerar relatório Allure:
+### 3. Gerar Relatório Allure
 
 ```bash
-  allure serve target/allure-results
+  mvn  allure:report
+allure serve target/allure-results
 ```
-
 > Isso abrirá o relatório automaticamente no navegador com todos os cenários, status, evidências e detalhes de execução.
+
+
+---
+
+
+## 🧪 Funcionalidades Testadas
+
+- Checkout com usuário logado
+- Exibição de métodos de pagamento
+- Validação de campos obrigatórios
+- Geração de massa dinâmica via API `/register`
+- Armazenamento de execução e logs no banco SQLite
+- Evidências visuais e logs salvos automaticamente
+---
+## 📊 Relatórios e Logs
+
+- Relatórios gerados:
+    - Allure: `target/allure-results`
+    - HTML Cucumber: `target/cucumber-reports`
+- Logs salvos no banco `executions.db`
+- Evidências visuais (prints) capturadas em falhas
+
+---
+## ⚙️ CI/CD
+
+Este projeto possui pipeline configurado para:
+
+- **Jenkins:** com `Jenkinsfile` para build, execução e publicação de relatórios
+- **Azure DevOps:** com `azure-pipelines.yml`
 
 ---
 
@@ -82,8 +107,14 @@ advantageTesteInmetrics/
 
 - O projeto utiliza o padrão Page Object para manter organização e facilitar manutenção.
 - A massa de dados para login é gerada via API `/register`.
+- Separação de responsabilidades: `steps`, `utils`, `pages`
 - As execuções são registradas em banco de dados SQLite.
 - Os logs são gerados automaticamente com Log4j2.
 - O projeto pode ser facilmente integrado com pipelines CI/CD (Jenkins, GitHub Actions, etc.).
 
 ---
+## 👩‍💻 Desenvolvido por
+
+**Carine R Monte**  
+🔗 [LinkedIn](https://www.linkedin.com/in/carine-rodrigues-monte/)  
+📧 cariner9@gmail.com  

@@ -1,0 +1,27 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '11'
+      jdkArchitecture: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean test'
+      publishJUnitResults: true
+      testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'PreInstalled'
+      mavenVersionOption: 'Default'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'target'
+      ArtifactName: 'ResultadosBuild'
+      publishLocation: 'Container'
